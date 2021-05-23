@@ -11,25 +11,37 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-import org.apache.commons.configuration.ConfigurationException;
-
-import com.gojira.gql.common.AppConfig;
 import com.gojira.gql.common.ClassSerialzer;
 import com.gojira.gql.constants.QueryTemplates;
 import com.gojira.gql.db.GojiraDBPool;
 import com.gojira.gql.exception.GojiraException;
 import com.gojira.gql.exception.INFO_IDS;
 
+/**
+ * This class provides functions to perform all the SQL transactions with the
+ * ease of classes
+ * 
+ * @author Pranav k.v
+ * @version 1.0.0
+ * @since 2021-05-05
+ */
+
 public class GQuery {
 
 	private HashMap<String, Object> columnValueMap;
 
-	String gql = "";
+	private String gql = "";
 
 	public void Quey() {
 		columnValueMap = new HashMap<String, Object>();
 	}
 
+	/**
+	 * This method is used to perform SELECT operation to mapped tables.
+	 * 
+	 * @param table Table name in which operation to be applied.
+	 * @return GqueryMapper- This returns object of GqueryMapper.
+	 */
 	public GqueryMapper select(String table) {
 		this.gql = "SELECT * FROM " + table;
 		GqueryMapper mapper = new GqueryMapper();
@@ -73,11 +85,20 @@ public class GQuery {
 		return query;
 	}
 
+	/**
+	 * This method is used to perform Batch INSERT operation to mapped table.
+	 * 
+	 * @param classObjList A List contains mapped Class Objects.
+	 * @return Integer- This returns No. rows inserted to table.
+	 * @exception GojiraException On SQL error.
+     * @see GojiraException
+	 */
 	public int addAll(ArrayList<Object> classObjList) throws GojiraException {
 
 		Connection conn = null;
 		PreparedStatement ps = null;
 		int count = 0;
+		int updateCount = 0;
 
 		this.columnValueMap = ClassSerialzer.serialize(classObjList.get(0));
 		String tableName = ClassSerialzer.getTableName(classObjList.get(0));
@@ -103,6 +124,7 @@ public class GQuery {
 					count++;
 					ps.addBatch();
 				}
+				updateCount++;
 
 			}
 
@@ -116,10 +138,18 @@ public class GQuery {
 			GojiraDBPool.closeConnection(conn);
 		}
 
-		return count;
+		return updateCount;
 	}
 
-	public boolean add(Object classObj) throws GojiraException {
+	/**
+	 * This method is used to perform INSERT operation to mapped table.
+	 * 
+	 * @param classObj An Object of mapped Class.
+	 * @return void
+	 * @exception GojiraException On SQL error.
+     * @see GojiraException
+	 */
+	public void add(Object classObj) throws GojiraException {
 
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -146,7 +176,6 @@ public class GQuery {
 			}
 
 			ps.executeUpdate();
-			return true;
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -157,7 +186,15 @@ public class GQuery {
 		}
 	}
 
-	public boolean delete(Object classObj) throws GojiraException {
+	/**
+	 * This method is used to perform DELETE operation to mapped table.
+	 * 
+	 * @param classObj An Object of mapped Class.
+	 * @return void
+	 * @exception GojiraException On SQL error.
+     * @see GojiraException
+	 */
+	public void delete(Object classObj) throws GojiraException {
 
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -185,7 +222,6 @@ public class GQuery {
 			}
 
 			ps.executeUpdate();
-			return true;
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -196,6 +232,14 @@ public class GQuery {
 		}
 	}
 
+	/**
+	 * This method is used to perform SELECT operation to mapped table.
+	 * @param gqueryMapper An Object of GqueryMapper Class which contains prepared values.
+	 * @param resultClass Type of Class to which the SQL ResultSet are to be stored.
+	 * @return Class Object with mapped SQL ResultSet.
+	 * @exception GojiraException On SQL error.
+     * @see GojiraException
+	 */
 	protected Object fetch(GqueryMapper gqueryMapper, Class<?> resultClass) throws GojiraException {
 
 		Connection conn = null;
@@ -249,6 +293,15 @@ public class GQuery {
 		return resultObj;
 	}
 
+	/**
+	 * This method is used to perform SELECT operation to mapped table.
+	 * @param nativeSQL Native SQL Query.
+	 * @param valuesInOrder Prepared values in order.
+	 * @param resultClass Type of Class to which the SQL ResultSet are to be stored.
+	 * @return Class Object with mapped SQL ResultSet.
+	 * @exception GojiraException On SQL error.
+     * @see GojiraException
+	 */
 	public Object fetch(String nativeSQL, String[] valuesInOrder, Class<?> resultClass) throws GojiraException {
 
 		Connection conn = null;
@@ -302,6 +355,14 @@ public class GQuery {
 		return resultObj;
 	}
 
+	/**
+	 * This method is used to perform SELECT operation to mapped table.
+	 * @param gqueryMapper An Object of GqueryMapper Class which contains prepared values.
+	 * @param resultClass Type of Class to which the SQL ResultSet are to be stored.
+	 * @return A List Class Object with mapped SQL ResultSet.
+	 * @exception GojiraException On SQL error.
+     * @see GojiraException
+	 */
 	protected List<Object> fetchAll(GqueryMapper gqueryMapper, Class<?> resultClass) throws GojiraException {
 
 		Connection conn = null;
@@ -360,6 +421,15 @@ public class GQuery {
 		return resultList;
 	}
 
+	/**
+	 * This method is used to perform SELECT operation to mapped table.
+	 * @param nativeSQL Native SQL Query.
+	 * @param valuesInOrder Prepared values in order.
+	 * @param resultClass Type of Class to which the SQL ResultSet are to be stored.
+	 * @return List Class Object with mapped SQL ResultSet.
+	 * @exception GojiraException On SQL error.
+     * @see GojiraException
+	 */
 	public List<Object> fetchAll(String nativeSQL, String[] valuesInOrder, Class<?> resultClass)
 			throws GojiraException {
 

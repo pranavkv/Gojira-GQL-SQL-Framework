@@ -2,6 +2,13 @@ package com.gojira.gql.transactions;
 
 import java.util.ArrayList;
 
+/**
+* This class provides functions to perform all the SQL matching functions with the ease of classes 
+* @author  Pranav k.v
+* @version 1.0.0
+* @since   2021-05-05 
+*/
+
 public class LogicORExpression extends GqueryMapper {
 
 	protected String gql = "(";
