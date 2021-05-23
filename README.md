@@ -1,6 +1,6 @@
 # Gojira-GQL-SQL--Framework
 
-**How to initialiaze **
+#How to initialiaze
 
 Load the configuration by passing the properties file like below
 
@@ -11,7 +11,7 @@ Load the configuration by passing the properties file like below
         }
     GojiraDBPool.initDataSource(AppConfig.getProperties());    
     
-**1 - INSERT SNIPPET**
+#1 - INSERT SNIPPET
    
    	Student std = new Student();
 	  std.setAddress("something");
@@ -22,7 +22,7 @@ Load the configuration by passing the properties file like below
 		qry.add(std);
 
 
-**2 - DELETE **
+#2 - DELETE
 
     Student std = new Student();
 	  std.setAddress("something");
@@ -32,7 +32,7 @@ Load the configuration by passing the properties file like below
 		GQuery qry = new GQuery();
 		qry.delete(std);
     
-3 - WHERE QUERY with Logical Expression
+#3 - WHERE QUERY with Logical Expression
 
     LogicORExpression orExpr = new LogicORExpression()
 		    .equals("id", "21")
@@ -43,14 +43,14 @@ Load the configuration by passing the properties file like below
 				.where()
 				.set(orExpr).fetch(Student.class);
 	
- 4 - WHERE QUERY WITH LIST OF ROWS
+ #4 - WHERE QUERY WITH LIST OF ROWS
  
      List<Object> list = new GQuery().select("student")
         .where()
         .equals("id", "21")
         .fetch(Student.class);
     
- 5 - NATIVE SELECT QUERY
+ #5 - NATIVE SELECT QUERY
     
      List<Object> list = new GQuery()
         .fetch("SELECT * FROM STUDENT WHERE name = ? AND adress LIKE ?", new String[] {"nobody","something"}, Student.class);
