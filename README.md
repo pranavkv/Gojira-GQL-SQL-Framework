@@ -24,24 +24,25 @@ Load the configuration by passing the properties file like below
 
 #2 - DELETE
 
-   	Student std = new Student();
+  	Student std = new Student();
 	std.setAddress("something");
-  	std.setId("26");
-    	std.setName("Nobody");
-
-    	GQuery qry = new GQuery();
-    	qry.delete(std);
+ 	std.setId("26");
+	std.setName("Nobody");
+	
+	GQuery qry = new GQuery();
+	qry.delete(std);
     
 #3 - WHERE QUERY with Logical Expression
 
    	LogicORExpression orExpr = new LogicORExpression()
 	.equals("id", "21")
 	.equals("id", "22");
-		
+	
 	Student stud = (Student) new GQuery()
 	.select("student")
 	.where()
-	.set(orExpr).fetch(Student.class);
+	.set(orExpr)
+	.fetch(Student.class);
 	
  #4 - WHERE QUERY WITH LIST OF ROWS
  
