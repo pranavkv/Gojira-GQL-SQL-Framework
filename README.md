@@ -1,6 +1,6 @@
 # Gojira-GQL-SQL--Framework
 
-**How to initialiaze **
+#How to initialiaze
 
 Load the configuration by passing the properties file like below
 
@@ -11,48 +11,50 @@ Load the configuration by passing the properties file like below
         }
     GojiraDBPool.initDataSource(AppConfig.getProperties());    
     
-**1 - INSERT SNIPPET**
+#1 - INSERT SNIPPET
    
-   	Student std = new Student();
-	  std.setAddress("something");
+	Student std = new Student();
+   	std.setAddress("something");
   	std.setId("26");
-    std.setName("Nobody");
+  	std.setName("Nobody");
 
-		GQuery qry = new GQuery();
-		qry.add(std);
+	GQuery qry = new GQuery();
+	qry.add(std);
 
 
-**2 - DELETE **
+#2 - DELETE
 
-    Student std = new Student();
-	  std.setAddress("something");
-  	std.setId("26");
-    std.setName("Nobody");
-
-		GQuery qry = new GQuery();
-		qry.delete(std);
-    
-3 - WHERE QUERY with Logical Expression
-
-    LogicORExpression orExpr = new LogicORExpression()
-		    .equals("id", "21")
-		    .equals("id", "22");
-		
-		Student stud = (Student) new GQuery()
-				.select("student")
-				.where()
-				.set(orExpr).fetch(Student.class);
+  	Student std = new Student();
+	std.setAddress("something");
+ 	std.setId("26");
+	std.setName("Nobody");
 	
- 4 - WHERE QUERY WITH LIST OF ROWS
+	GQuery qry = new GQuery();
+	qry.delete(std);
+    
+#3 - WHERE QUERY with Logical Expression
+
+   	LogicORExpression orExpr = new LogicORExpression()
+	.equals("id", "21")
+	.equals("id", "22");
+	
+	Student stud = (Student) new GQuery()
+	.select("student")
+	.where()
+	.set(orExpr)
+	.fetch(Student.class);
+	
+ #4 - WHERE QUERY WITH LIST OF ROWS
  
-     List<Object> list = new GQuery().select("student")
+    	List<Object> list = new GQuery()
+	.select("student")
         .where()
         .equals("id", "21")
         .fetch(Student.class);
     
- 5 - NATIVE SELECT QUERY
+ #5 - NATIVE SELECT QUERY
     
-     List<Object> list = new GQuery()
+ 	List<Object> list = new GQuery()
         .fetch("SELECT * FROM STUDENT WHERE name = ? AND adress LIKE ?", new String[] {"nobody","something"}, Student.class);
         
         
